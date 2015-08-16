@@ -1,0 +1,114 @@
+{if $inactive}<!--1-->
+  {include file="$template/includes/alert.tpl" type="danger" msg=$LANG.affiliatesdisabled textcenter=true}
+{else}<!--1 else-->
+
+  <div class="row">
+
+    <div class="col-sm-4">
+      <div class="affiliate-stat affiliate-stat-green alert-warning">
+        <i class="fa fa-users"></i><span>{$visitors}</span>{$LANG.affiliatesclicks}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="affiliate-stat affiliate-stat-green alert-info">
+        <i class="fa fa-shopping-cart"></i><span>{$signups}</span>{$LANG.affiliatessignups}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="affiliate-stat affiliate-stat-green alert-success">
+        <i class="fa fa-bar-chart-o"></i><span>{$conversionrate}%</span>{$LANG.affiliatesconversionrate}
+      </div>
+    </div>
+
+  </div>
+
+  <div class="affiliate-referral-link text-center">
+    <h3>{$LANG.affiliatesreferallink}</h3>
+    <span>{$referrallink}</span>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <table class="table table-striped table-rounded">
+        <tr>
+          <td class="text-right">{$LANG.affiliatescommissionspending}:</td>
+          <td><strong>{$pendingcommissions}</strong></td>
+        </tr>
+        <tr>
+          <td class="text-right">{$LANG.affiliatescommissionsavailable}:</td>
+          <td><strong>{$balance}</strong></td>
+        </tr>
+        <tr>
+          <td class="text-right">{$LANG.affiliateswithdrawn}:</td>
+          <td><strong>{$withdrawn}</strong></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+{if $withdrawrequestsent}<!--2-->
+  <div class="alert alert-success"><p>{$LANG.affiliateswithdrawalrequestsuccessful}</p></div>
+{else}<!--2 else-->
+  <p class="text-center">
+    <a href="{$smarty.server.PHP_SELF}?action=withdrawrequest" class="btn btn-lg btn-danger"{if !$withdrawlevel} disabled="true"{/if}>
+      <i class="fa fa-bank"></i> {$LANG.affiliatesrequestwithdrawal}
+    </a>
+  </p>
+{if !$withdrawlevel}<!--3-->
+  <p class="text-muted text-center">{lang key="affiliateWithdrawalSummary" amountForWithdrawal=$affiliatePayoutMinimum}</p>
+{/if}<!--3 end-->
+{/if}<!--2 end-->
+
+  {include file="$template/includes/subheader.tpl" title=$LANG.affiliatesreferals}
+
+  {include file="$template/includes/tablelist.tpl" tableName="AffiliatesList"}
+  <script type="text/javascript">
+    jQuery(document).ready( function () {
+      var table = $('#tableAffiliatesList').DataTable();
+    {if $orderby == 'regdate'}
+      table.order(0, '{$sort}');
+    {elseif $orderby == 'product'}
+      table.order(1, '{$sort}');
+    {elseif $orderby == 'amount'}
+      table.order(2, '{$sort}');
+    {elseif $orderby == 'status'}
+      table.order(4, '{$sort}');
+    {/if}
+      table.draw();
+    });
+  </script>
+
+  <div class="table-container clearfix">
+    <table id="tableAffiliatesList" class="table table-list">
+      <thead>
+        <tr>
+          <th>{$LANG.affiliatessignupdate}</th>
+          <th>{$LANG.orderproduct}</th>
+          <th>{$LANG.affiliatesamount}</th>
+          <th>{$LANG.affiliatescommission}</th>
+          <th>{$LANG.affiliatesstatus}</th>
+        </tr>
+      </thead>
+      <tbody>
+      {foreach from=$referrals item=referral}
+        <tr class="text-center">
+          <td>{$referral.date}</td>
+          <td>{$referral.service}</td>
+          <td>{$referral.amountdesc}</td>
+          <td>{$referral.commission}</td>
+          <td><span class='label status status-{$referral.status|strtolower}'>{$referral.status}</span></td>
+        </tr>
+      {/foreach}
+      </tbody>
+    </table>
+  </div>
+
+{if $affiliatelinkscode}<!--2-->
+  {include file="$template/includes/subheader.tpl" title=$LANG.affiliateslinktous}
+
+  <div class="margin-bottom text-center">{$affiliatelinkscode}</div>
+{/if}<!--2 end-->
+
+{/if}<!--1 end-->
