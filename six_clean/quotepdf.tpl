@@ -10,7 +10,7 @@ $pdf->SetFont('freesans','',13);
 $pdf->Cell(0,6,trim($companyaddress[0]),0,1,'R');
 $pdf->SetFont('freesans','',9);
 for ( $i = 1; $i <= ((count($companyaddress)>6) ? count($companyaddress) : 6); $i += 1) {
-    $pdf->Cell(0,4,trim($companyaddress[$i]),0,1,'R');
+  $pdf->Cell(0,4,trim($companyaddress[$i]),0,1,'R');
 }
 $pdf->Ln(5);
 
@@ -36,14 +36,14 @@ $pdf->SetFont('freesans','B',10);
 $pdf->Cell(0,4,$_LANG['quoterecipient'],0,1);
 $pdf->SetFont('freesans','',9);
 if ($clientsdetails["companyname"]) {
-    $pdf->Cell(0,4,$clientsdetails["companyname"],0,1,'L');
-    $pdf->Cell(0,4,$_LANG["invoicesattn"].": ".$clientsdetails["firstname"]." ".$clientsdetails["lastname"],0,1,'L');
+  $pdf->Cell(0,4,$clientsdetails["companyname"],0,1,'L');
+  $pdf->Cell(0,4,$_LANG["invoicesattn"].": ".$clientsdetails["firstname"]." ".$clientsdetails["lastname"],0,1,'L');
 } else {
-    $pdf->Cell(0,4,$clientsdetails["firstname"]." ".$clientsdetails["lastname"],0,1,'L');
+  $pdf->Cell(0,4,$clientsdetails["firstname"]." ".$clientsdetails["lastname"],0,1,'L');
 }
 $pdf->Cell(0,4,$clientsdetails["address1"],0,1,'L');
 if ($clientsdetails["address2"]) {
-    $pdf->Cell(0,4,$clientsdetails["address2"],0,1,'L');
+  $pdf->Cell(0,4,$clientsdetails["address2"],0,1,'L');
 }
 $pdf->Cell(0,4,$clientsdetails["city"].', '.$clientsdetails["state"].', '.$clientsdetails["postcode"],0,1,'L');
 $pdf->Cell(0,4,$clientsdetails["country"],0,1,'L');
@@ -51,9 +51,9 @@ $pdf->Cell(0,4,$clientsdetails["country"],0,1,'L');
 $pdf->Ln(10);
 
 if ($proposal) {
-    $pdf->SetFont('freesans','',9);
-    $pdf->MultiCell(170,5,$proposal);
-    $pdf->Ln(10);
+  $pdf->SetFont('freesans','',9);
+  $pdf->MultiCell(170,5,$proposal);
+  $pdf->Ln(10);
 }
 
 $pdf->SetDrawColor(200);
@@ -61,7 +61,8 @@ $pdf->SetFillColor(239);
 
 $pdf->SetFont('freesans','',8);
 
-$tblhtml = '<table width="100%" bgcolor="#ccc" cellspacing="1" cellpadding="2" border="0">
+$tblhtml = '
+  <table width="100%" bgcolor="#ccc" cellspacing="1" cellpadding="2" border="0">
     <tr height="30" bgcolor="#efefef" style="font-weight:bold;text-align:center;">
         <td width="5%">'.$_LANG['quoteqty'].'</td>
         <td width="45%">'.$_LANG['quotedesc'].'</td>
@@ -99,12 +100,12 @@ $tblhtml .= '
         <td align="right" colspan="4">'.$_LANG['invoicestotal'].'</td>
         <td align="center">'.$total.'</td>
     </tr>
-</table>';
+  </table>';
 
 $pdf->writeHTML($tblhtml, true, false, false, false, '');
 
 if ($notes) {
-    $pdf->Ln(6);
-    $pdf->SetFont('freesans','',8);
-    $pdf->MultiCell(170,5,$_LANG['invoicesnotes'].": $notes");
+  $pdf->Ln(6);
+  $pdf->SetFont('freesans','',8);
+  $pdf->MultiCell(170,5,$_LANG['invoicesnotes'].": $notes");
 }
